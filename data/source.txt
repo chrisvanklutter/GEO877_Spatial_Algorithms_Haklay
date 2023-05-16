@@ -1,0 +1,36 @@
+geoadmin motorways: 
+latest update: 05.01.2023
+
+Axes of national routes: 
+
+https://map.geo.admin.ch/?lang=en&topic=ech&bgLayer=ch.swisstopo.swissimage&layers=ch.swisstopo.zeitreihen,ch.bfs.gebaeude_wohnungs_register,ch.bav.haltestellen-oev,ch.swisstopo.swisstlm3d-wanderwege,ch.astra.wanderland-sperrungen_umleitungen,ch.astra.baulinien-nationalstrassen,ch.astra.hauptstrassennetz,ch.astra.nationalstrassenachsen&layers_opacity=1,1,1,0.8,0.8,0.7,0.75,1&layers_visibility=false,false,false,false,false,false,false,true&layers_timestamp=18641231,,,,,,,&E=2619521.37&N=1180704.25&zoom=2 
+
+Data description: 
+
+ https://data.geo.admin.ch/browser/index.html#/collections/ch.astra.nationalstrassenachsen?.language=en 
+
+Data download:  
+
+https://data.geo.admin.ch/browser/index.html#/collections/ch.astra.nationalstrassenachsen/items/nationalstrassenachsen?.language=en&.asset=asset-nationalstrassenachsen_2056.gdb.zip 
+
+map.geoadmin.ch
+https://map.geo.admin.ch/?layers=ch.astra.nationalstrassenachsen&lang=fr&topic=ech&bgLayer=ch.swisstopo.swissimage&E=2531197.00&N=1154323.46&zoom=6
+
+
+ OSM:
+ ----
+ 
+ Overpass query:
+ https://overpass-turbo.osm.ch/
+ 
+[out:xml] [timeout:25];
+{{geocodeArea:Switzerland}}->.searchArea;
+(
+    node["highway"="motorway"](area.searchArea);
+    way["highway"="motorway"](area.searchArea);
+    relation["highway"="motorway"](area.searchArea);
+);
+(._;>;);
+out body;
+
+
