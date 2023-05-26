@@ -105,8 +105,10 @@ class Segment():
             # We need this method so that the class will behave sensibly in sets and dictionaries
     
     def __hash__(self):
-        return hash((start.start.x, self.start.y,self.end.x, self.end.y))    
-        
+        return hash((self.start.x, self.start.y,self.end.x, self.end.y))    
+    
+    
+    
     # determine if intersects with another segment (using Point method leftRight)
     # - should we incorporate testing for identical segments and non-zero lengths?
     def intersects(self, other):        
