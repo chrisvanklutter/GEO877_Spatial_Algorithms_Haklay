@@ -83,6 +83,13 @@ class Point():
         if side != 0:
             side = side/abs(side)  # will return 0 if collinear, -1 for left, 1 for right
         return side
+    
+    #new method used for the Buffer Algorithm
+    def on_segment_euc(self, seg):
+        if (self.__det(seg.start, seg.end)<=0):
+            if (self.distEuclidean(seg.start)<=seg.length) and (self.distEuclidean(seg.end)<=seg.length):
+                return True
+        return False
 
 ####### Segment #######
 class Segment():    
@@ -146,6 +153,26 @@ class Segment():
         
         return True
     
+'''
+New Linestring class
+Implemented, because Line-Segment-Intersection is needed in the Buffer Algorithm.
+'''
+
+class PLinestring():
+    
+    def __init__(self, data, xcol=0, ycol=1):
+        self.points = []
+        for d in data:
+            self.points.append(Point(d[xcol], d[ycol]))
+        
+    def string_segment_intersection(self, other_seg):
+        for i in range(len(self.points)-1):
+            seg = Segment(self.points[i], self.points[i+1])
+            if other_seg.intersects(seg)==True:
+                if (other_seg.start != seg.end and other_seg.end !=seg.start):
+                    return True
+        return False
+    
 ####### Bounding Box #######    
 
 # define bounding box for 2 or more points (initialised as PointGroup, Polygon or Segment)
@@ -182,7 +209,7 @@ class Bbox():
             return False
             # We need this method so that the class will behave sensibly in sets and dictionaries
     
-    def __hash__(self):
+    def __hash__(self, other):
         return hash(self.ll, other.ur)  
         
     # test for overlap between two bounding boxes
@@ -301,3 +328,16 @@ class Polygon(PointGroup):
             return False           
 
         return True
+    
+    #new method, which is needed to test if the Concave Hull includes all of the Points
+    def intersectsPoint(self, p):
+        #Checks for containment, with existing method
+        if (self.containsPoint(p)==True):
+            return True
+        #Due to potential (float) errors, point-segment intersection needs to be checked seperately
+        for i in range(len(self.points)-1):
+            if p.on_segment_euc(Segment(self.points[i], self.points[i+1]))==True:
+                return True
+            else:
+                next
+        return False
