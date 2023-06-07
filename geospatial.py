@@ -269,12 +269,13 @@ class Polygon(PointGroup):
         end = self.points[-1]
         return start == end
 
-    def removeDuplicates(self):
+    def removeDuplicates(self, print_change=False):
         oldn = len(self.points)
         self.points = list(dict.fromkeys(self.points)) # Get rid of the duplicates
         self.points.append(self.points[0]) # Our polygon must have one duplicate - we put it back now
         n = len(self.points)
-        print(f'The old polygon had {oldn} points, now we only have {n}.')
+        if print_change:
+            print(f'The old polygon had {oldn} points, now we only have {n}.')
         
         # find area and centre of the polygon
     # - based on GIS Algorithms, Ch.2 p9-10, by Ningchuan Xiao, publ. 2016 
